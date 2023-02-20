@@ -1,1 +1,0 @@
-from schemas.wizard import Wizard

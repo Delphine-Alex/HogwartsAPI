@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-from routes.index import wizard
+import api
 
 app = FastAPI()
+
+app.include_router(api.router)
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-app.include_router(wizard)
+
 

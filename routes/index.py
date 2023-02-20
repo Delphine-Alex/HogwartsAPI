@@ -1,1 +1,0 @@
-from routes.wizard import wizard

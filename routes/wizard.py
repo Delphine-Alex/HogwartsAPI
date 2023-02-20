@@ -1,60 +1,29 @@
-from fastapi import APIRouter, HTTPException
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy import exc as sa_exc
+from typing import List
+from sqlalchemy.orm import Session
+from exceptions.exceptions import WizardInfoInfoAlreadyExistError, WizardInfoNotFoundError
+from models.wizard import WizardInfo
+from templates.wizard import CreateAndUpdateWizard
 
-from config.db import conn
+def get_wizards(session: Session, limit: int, offset: int) -> List[WizardInfo]:
+    return session.query(WizardInfo).offset(offset).limit(limit).all()
 
-from models.index import wizards
-from schemas.index import Wizard
+# Function to  get info of a particular wizard
+def get_wizard_by_id(session: Session, _id: int) -> WizardInfo:
+    wizard_info = session.query(WizardInfo).get(_id)
 
-wizard = APIRouter()
+    if wizard_info is None:
+        raise WizardInfoNotFoundError
 
+    return wizard_info
 
-@wizard.get('/wizards')
-async def read_data():
-    return conn.execute(wizards.select()).fetchall()
+# Function to add a new  wizard info to the database
+def create_wizard(session: Session, wizard_info: CreateAndUpdateWizard) -> WizardInfo:
+    wizard_details = session.query(WizardInfo).filter(WizardInfo.firstname == wizard_info.firstname, WizardInfo.lastname == wizard_info.lastname, WizardInfo.house == wizard_info.house).first()
+    if wizard_details is not None:
+        raise WizardInfoInfoAlreadyExistError
 
-@wizard.get('/wizard/{id}')
-async def read_data(id: int):
-    result = conn.execute(wizards.select().where(wizards.c.id == id)).fetchone()
-    if not result:
-        raise HTTPException(status_code=400, detail="Wizard not found")
-    return result
-
-@wizard.post('/wizards')
-async def write_data(wizard: Wizard):
-    try:
-        conn.execute(wizards.insert().values(
-            firstname=wizard.firstname,
-            lastname=wizard.lastname,
-            house=wizard.house
-        ))
-        return conn.execute(wizards.select()).fetchall()
-    except IntegrityError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@wizard.put('/wizard/{id}')
-async def update_data(id:int, wizard: Wizard):
-    try:
-        conn.execute(wizards.update().values(
-            firstname=wizard.firstname,
-            lastname=wizard.lastname,
-            house=wizard.house
-        ).where(wizards.c.id == id))
-        result = conn.execute(wizards.select().where(wizards.c.id == id)).fetchone()
-        if not result:
-            raise HTTPException(status_code=400, detail="Wizard not found")
-        return result
-    except sa_exc.DataError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@wizard.delete('/{id}')
-async def delete_data(id: int):
-    try:
-        conn.execute(wizards.delete().where(wizards.c.id == id))
-        result = conn.execute(wizards.select()).fetchall()
-        if not result:
-            raise HTTPException(status_code=400, detail="No more wizards in database")
-        return result
-    except sa_exc.DataError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    new_wizard_info = WizardInfo(**wizard_info.dict())
+    session.add(new_wizard_info)
+    session.commit()
+    session.refresh(new_wizard_info)
+    return new_wizard_info

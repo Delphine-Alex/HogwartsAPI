@@ -1,14 +1,11 @@
 from sqlalchemy import Column, Table
-from sqlalchemy.sql.sqltypes import Integer, String
+from sqlalchemy.types import Integer, String
 
-from config.db import meta
+from database import Base
 
-wizards = Table(
-    'wizards', meta,
-    
-    Column('id', Integer, primary_key=True),
-    Column('firstname', String(100)),
-    Column('lastname', String(100)),
-    Column('house', String(100)),
-    
-)
+class WizardInfo(Base):
+    __tablename__ = 'wizards'
+    id = Column(Integer, primary_key=True)
+    firstname = Column(String(100))
+    lastname = Column(String(100))
+    house = Column(String(100))
