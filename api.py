@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_utils.cbv import cbv
 from sqlalchemy.orm import Session
-from routes.wizard import get_wizards, get_wizard_by_id, create_wizard
+from routes.wizard import get_wizards, get_wizard_by_id, create_wizard, update_wizard, delete_wizard
 from database import get_db
 from exceptions.exceptions import WizardInfoException
 from templates.wizard import Wizard, CreateAndUpdateWizard, PaginatedWizardsInfo
@@ -44,5 +44,24 @@ def get_wizard_info(id: int, session: Session = Depends(get_db)):
         raise HTTPException(**cie.__dict__)
 
 
+# API to update a existing wizard info
+@router.put("/wizards/{id}", response_model = Wizard)
+def update_wizard(id: int, new_info: CreateAndUpdateWizard, session: Session = Depends(get_db)):
+
+    try:
+        wizard_info = update_wizard(session, id, new_info)
+        return wizard_info
+    except WizardInfoException as cie:
+        raise HTTPException(**cie.__dict__)
+
+
+# API to delete a wizard info from the database
+@router.delete("/wizards/{id}")
+def delete_wizard(id: int, session: Session = Depends(get_db)):
+
+    try:
+        return delete_wizard(session, id)
+    except WizardInfoException as cie:
+        raise HTTPException(**cie.__dict__)
 
 
