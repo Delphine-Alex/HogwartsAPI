@@ -46,7 +46,7 @@ def get_wizard_info(id: int, session: Session = Depends(get_db)):
 
 # API to update a existing wizard info
 @router.put("/wizards/{id}", response_model = Wizard)
-def update_wizard(id: int, new_info: CreateAndUpdateWizard, session: Session = Depends(get_db)):
+def update_wizard_by_id(id: int, new_info: CreateAndUpdateWizard, session: Session = Depends(get_db)):
 
     try:
         wizard_info = update_wizard(session, id, new_info)
@@ -57,7 +57,7 @@ def update_wizard(id: int, new_info: CreateAndUpdateWizard, session: Session = D
 
 # API to delete a wizard info from the database
 @router.delete("/wizards/{id}")
-def delete_wizard(id: int, session: Session = Depends(get_db)):
+def delete_wizard_by_id(id: int, session: Session = Depends(get_db)):
 
     try:
         return delete_wizard(session, id)
