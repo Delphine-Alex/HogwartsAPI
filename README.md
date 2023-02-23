@@ -16,7 +16,7 @@ http://127.0.0.1:8000
 
 ### Modélisation de la base de données
 
-Ma base de données se nomme Hogwards. Elle présente une seule table 'wizards' et les champs suivants : id, firstname, lastname et house (c.f photo ci-dessous).
+Ma base de données se nomme Hogwarts. Elle présente une seule table 'wizards' et les champs suivants : id, firstname, lastname et house (c.f photo ci-dessous).
 
 <img width="571" alt="Capture d’écran 2023-02-23 à 16 01 50" src="https://user-images.githubusercontent.com/70972077/220956803-ae124685-9c5d-48e0-86bf-f67fd1209d4d.png">
 
