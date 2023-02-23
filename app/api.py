@@ -15,7 +15,7 @@ class Wizards:
 
     # API to get the list of wizard info
     @router.get("/wizards", response_model=PaginatedWizardsInfo)
-    def list_wizards(self, limit: int = 10, offset: int = 0):
+    def list_wizards(self, limit: int = 100, offset: int = 0):
 
         wizards_list = get_wizards(self.session, limit, offset)
         response = {"limit": limit, "offset": offset, "data": wizards_list}
