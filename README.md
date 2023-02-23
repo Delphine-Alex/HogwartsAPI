@@ -18,6 +18,9 @@ http://127.0.0.1:8000
 
 Ma base de données se nomme Hogwards. Elle présente une seule table 'wizards' et les champs suivants : id, firstname, lastname et house (c.f photo ci-dessous).
 
+<img width="571" alt="Capture d’écran 2023-02-23 à 16 01 50" src="https://user-images.githubusercontent.com/70972077/220956803-ae124685-9c5d-48e0-86bf-f67fd1209d4d.png">
+
+
 Création de la table 'wizard' :
 
 ```sql
@@ -67,11 +70,14 @@ Méthode employée : CRUD. Les différents routes/endpoints sont disponibles à 
 http://127.0.0.1:8000/docs
 ```
 
-GET ```http://127.0.0.1:8000/wizards``` récupère la liste de tous les sorciers  
-GET ```http://127.0.0.1:8000/wizards/{id}``` récupère la liste d'un sorcier ou d'une sorcière particulière  
-POST ```http://127.0.0.1:8000/wizards``` permet d'ajouter un sorcier ou d'une sorcière particulière  
-PUT ```http://127.0.0.1:8000/wizards/{id}``` permet de modifier les données d'un seul sorcier ou sorcière  
-DELETE ```http://127.0.0.1:8000/wizards/{id}``` permet de supprimer les données d'un seul sorcier ou sorcière  
+<img width="1440" alt="Capture d’écran 2023-02-23 à 16 38 13" src="https://user-images.githubusercontent.com/70972077/220956903-f22e049e-cf61-4ef1-a1aa-1e048a89358e.png">
+
+
+GET http://127.0.0.1:8000/wizards récupère la liste de tous les sorciers  
+GET http://127.0.0.1:8000/wizards/{id} récupère la liste d'un sorcier ou d'une sorcière particulière  
+POST http://127.0.0.1:8000/wizards permet d'ajouter un sorcier ou d'une sorcière particulière  
+PUT http://127.0.0.1:8000/wizards/{id} permet de modifier les données d'un seul sorcier ou sorcière  
+DELETE http://127.0.0.1:8000/wizards/{id} permet de supprimer les données d'un seul sorcier ou sorcière  
 
 
 ### Tests unitaires
@@ -81,10 +87,3 @@ Les tests unitaires se trouvent dans le dossier cd test/unit/app et s'exécute �
 ```
 python3 test/unit/app/test_main.py
 ```
-
-
-
-
-
-
-
