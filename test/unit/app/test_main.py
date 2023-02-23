@@ -4,14 +4,22 @@ import requests
 url = 'http://127.0.0.1:8000'
 
 class TestMain(unittest.TestCase):
+
+
     def setUp(self):
         self.wizard_data = {
             "firstname": "Test",
             "lastname": "Test",
             "house": "Test"
         }
+    
 
-    def test_00_add_wizard(self):
+    def test00_read_main(self):
+        response = requests.get(url)
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_01_add_wizard(self):
         response = requests.post(url + '/wizards', json=self.wizard_data)
         self.assertEqual(response.status_code, 200)
         wizard = response.json()
@@ -20,7 +28,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(wizard['house'], self.wizard_data['house'])
 
 
-    def test_01_update_wizard_by_id(self):
+    def test_02_update_wizard_by_id(self):
         response = requests.get(url + '/wizards')
         wizard = response.json()
         for i in range(0, len(wizard["data"])):
@@ -43,7 +51,47 @@ class TestMain(unittest.TestCase):
         self.assertEqual(updated_wizard['house'], updated_wizard_data['house'])
 
 
-    def test_03_delete_wizard_by_id(self):
+    def test_03_get_wizards(self):
+        response = requests.get(url + '/wizards')
+        self.assertEqual(response.status_code, 200)
+        wizards = response.json()["data"]
+        self.assertIsInstance(wizards, list)
+        self.assertGreater(len(wizards), 0)
+        wizard = wizards[0]
+        self.assertIsInstance(wizard, dict)
+        self.assertIn("id", wizard)
+        self.assertIsInstance(wizard["id"], int)
+        self.assertIn("firstname", wizard)
+        self.assertIsInstance(wizard["firstname"], str)
+        self.assertIn("lastname", wizard)
+        self.assertIsInstance(wizard["lastname"], str)
+        self.assertIn("house", wizard)
+        self.assertIsInstance(wizard["house"], str)
+
+
+    def test_04_get_wizard_by_id(self):
+        response = requests.get(url + '/wizards')
+        wizard = response.json()
+        for i in range(0, len(wizard["data"])):
+            if wizard["data"][i]["firstname"] == "Test01":
+                id_wizard = wizard["data"][i]["id"]
+                break
+
+        response = requests.get(url + f'/wizards/{id_wizard}')
+        self.assertEqual(response.status_code, 200)
+        wizard = response.json()
+        self.assertIsInstance(wizard, dict)
+        self.assertIn("id", wizard)
+        self.assertIsInstance(wizard["id"], int)
+        self.assertIn("firstname", wizard)
+        self.assertIsInstance(wizard["firstname"], str)
+        self.assertIn("lastname", wizard)
+        self.assertIsInstance(wizard["lastname"], str)
+        self.assertIn("house", wizard)
+        self.assertIsInstance(wizard["house"], str)
+
+
+    def test_05_delete_wizard_by_id(self):
         response = requests.get(url + '/wizards')
         wizard = response.json()
         for i in range(0, len(wizard["data"])):
@@ -53,6 +101,7 @@ class TestMain(unittest.TestCase):
 
         response = requests.delete(url + f'/wizards/{id_wizard}')
         self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()
