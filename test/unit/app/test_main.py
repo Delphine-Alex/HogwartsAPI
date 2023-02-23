@@ -18,7 +18,7 @@ class TestMain(unittest.TestCase):
         response = requests.get(url)
         self.assertEqual(response.status_code, 200)
 
-
+    # Check endpoint: add a wizard to the database
     def test_01_add_wizard(self):
         response = requests.post(url + '/wizards', json=self.wizard_data)
         self.assertEqual(response.status_code, 200)
@@ -28,6 +28,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(wizard['house'], self.wizard_data['house'])
 
 
+    # Check endpoint: update a existing wizard
     def test_02_update_wizard_by_id(self):
         response = requests.get(url + '/wizards')
         wizard = response.json()
@@ -51,6 +52,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(updated_wizard['house'], updated_wizard_data['house'])
 
 
+    # Check endpoint: get the list of wizard
     def test_03_get_wizards(self):
         response = requests.get(url + '/wizards')
         self.assertEqual(response.status_code, 200)
@@ -69,6 +71,7 @@ class TestMain(unittest.TestCase):
         self.assertIsInstance(wizard["house"], str)
 
 
+    # Check endpoint: get of a particular wizard
     def test_04_get_wizard_by_id(self):
         response = requests.get(url + '/wizards')
         wizard = response.json()
@@ -91,6 +94,7 @@ class TestMain(unittest.TestCase):
         self.assertIsInstance(wizard["house"], str)
 
 
+    # Check endpoint: delete a wizard from the database
     def test_05_delete_wizard_by_id(self):
         response = requests.get(url + '/wizards')
         wizard = response.json()

@@ -73,16 +73,16 @@ http://127.0.0.1:8000/docs
 <img width="1440" alt="Capture d’écran 2023-02-23 à 16 38 13" src="https://user-images.githubusercontent.com/70972077/220956903-f22e049e-cf61-4ef1-a1aa-1e048a89358e.png">
 
 
-GET http://127.0.0.1:8000/wizards récupère la liste de tous les sorciers  
-GET http://127.0.0.1:8000/wizards/{id} récupère la liste d'un sorcier ou d'une sorcière particulière  
-POST http://127.0.0.1:8000/wizards permet d'ajouter un sorcier ou d'une sorcière particulière  
-PUT http://127.0.0.1:8000/wizards/{id} permet de modifier les données d'un seul sorcier ou sorcière  
-DELETE http://127.0.0.1:8000/wizards/{id} permet de supprimer les données d'un seul sorcier ou sorcière  
+GET /wizards récupère la liste de tous les sorciers  
+GET /wizards/{id} récupère la liste d'un sorcier ou d'une sorcière particulière  
+PUT /wizards/{id} permet de modifier les données d'un seul sorcier ou sorcière  
+POST /wizards permet d'ajouter un sorcier ou d'une sorcière particulière  
+DELETE /wizards/{id} permet de supprimer les données d'un seul sorcier ou sorcière  
 
 
 ### Tests unitaires
 
-Les tests unitaires se trouvent dans le dossier cd test/unit/app et s'exécute à l'aide de la commande suivante sous mac:
+Les tests unitaires se trouvent dans le dossier ```cd test/unit/app``` et s'exécute à l'aide de la commande suivante sous mac:
 
 ```
 python3 test/unit/app/test_main.py

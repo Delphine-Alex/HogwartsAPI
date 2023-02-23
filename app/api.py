@@ -13,7 +13,7 @@ router = APIRouter()
 class Wizards:
     session: Session = Depends(get_db)
 
-    # API to get the list of wizard info
+    # API endpoint: get the list of wizard
     @router.get("/wizards", response_model=PaginatedWizardsInfo)
     def list_wizards(self, limit: int = 100, offset: int = 0):
 
@@ -22,7 +22,7 @@ class Wizards:
 
         return response
     
-    # API endpoint to add a wizard info to the database
+    # API endpoint: add a wizard to the database
     @router.post("/wizards")
     def add_wizard(self, wizard_info: CreateAndUpdateWizard):
 
@@ -33,7 +33,7 @@ class Wizards:
             raise HTTPException(**cie.__dict__)
 
 
-# API endpoint to get info of a particular wizard
+# API endpoint: get of a particular wizard
 @router.get("/wizards/{id}", response_model = Wizard)
 def get_wizard_info(id: int, session: Session = Depends(get_db)):
 
@@ -44,7 +44,7 @@ def get_wizard_info(id: int, session: Session = Depends(get_db)):
         raise HTTPException(**cie.__dict__)
 
 
-# API to update a existing wizard info
+# API endpoint: update a existing wizard
 @router.put("/wizards/{id}", response_model = Wizard)
 def update_wizard_by_id(id: int, new_info: CreateAndUpdateWizard, session: Session = Depends(get_db)):
 
@@ -55,7 +55,7 @@ def update_wizard_by_id(id: int, new_info: CreateAndUpdateWizard, session: Sessi
         raise HTTPException(**cie.__dict__)
 
 
-# API to delete a wizard info from the database
+# API endpoint: delete a wizard from the database
 @router.delete("/wizards/{id}")
 def delete_wizard_by_id(id: int, session: Session = Depends(get_db)):
 
